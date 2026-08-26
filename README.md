@@ -8,6 +8,23 @@ Schriften, Grafiken und Skripte sind eingebettet, es gibt keine
 Abhängigkeiten und keinen Build-Schritt. Zum Ansehen genügt es, die
 Datei im Browser zu öffnen.
 
+## Kompatibilität
+
+Die Seite ist bewusst konservativ gebaut, damit sie auch auf älteren
+Geräten und Browsern funktioniert:
+
+- Vollständige Dokumentstruktur mit `<!DOCTYPE html>`, `<html lang="de">`
+  und `<meta charset="utf-8">`. Ohne Doctype liefen Browser im
+  Kompatibilitätsmodus („Quirks Mode“) und rechneten nach alten Regeln.
+- Das JavaScript kommt ohne moderne Sprachfeatures aus — nur `var` und
+  klassische Funktionen, keine Pfeilfunktionen, keine Klassen.
+- Das CSS beschränkt sich auf Grid, `clamp()` und Custom Properties.
+  Neuere Selektoren wie `:has()` stehen ausschließlich in einem
+  `@supports`-Block; fehlt die Unterstützung, bleibt die Seite nutzbar.
+- Impressum und Datenschutz funktionieren auch ohne JavaScript, siehe
+  den Hinweis unter „Aufbau der Datei“.
+- `prefers-reduced-motion` schaltet die Animationen ab.
+
 ## Im Browser bearbeiten
 
 Auf der Repo-Seite auf GitHub die Taste `.` drücken — das öffnet den
@@ -22,16 +39,24 @@ funktioniert von jedem Gerät mit Browser und GitHub-Login.
 
 | Bereich | Wo |
 |---|---|
-| Farben, Schriften, Layout | `<style>` am Dateianfang |
+| Titel, Beschreibung, Vorschaubild-Angaben | `<head>` am Dateianfang |
+| Farben, Schriften, Layout | `<style>` im `<head>` |
 | Kopfzeile und Navigation | `<header class="site">` |
 | Startseite | `<main id="top">` mit den Abschnitten `hero`, `leistungen`, `ueber-uns`, `referenzen`, `kontakt` |
-| Impressum | `<div id="page-impressum">` |
-| Datenschutzerklärung | `<div id="page-datenschutz">` |
+| Impressum | `<div id="impressum">` |
+| Datenschutzerklärung | `<div id="datenschutz">` |
 | Fußzeile mit Kontaktdaten | `<footer class="site">` |
 | Skripte | `<script>`-Blöcke am Dateiende |
 
 Impressum und Datenschutz sind eigene Seiten: Ein kleiner Router blendet
 über `#impressum` bzw. `#datenschutz` die Startseite aus.
+
+**Wichtig beim Umbenennen:** Die IDs `impressum` und `datenschutz`
+müssen genau so heißen wie die Anker in den Links. Nur dann greift die
+CSS-Rückfallebene über `:target`, die die Rechtsseiten auch ohne
+JavaScript erreichbar hält — sonst zeigt der Browser bei abgeschaltetem
+JavaScript nur die Startseite, und das Impressum wäre entgegen § 5 ECG
+nicht aufrufbar.
 
 ## Offene Punkte vor dem Livegang
 
