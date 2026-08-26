@@ -1,0 +1,11 @@
+# Windows / OneDrive
+Thumbs.db
+desktop.ini
+~$*
+
+# macOS
+.DS_Store
+
+# Editoren
+.vscode/
+.idea/
