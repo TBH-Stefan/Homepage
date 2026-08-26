@@ -660,51 +660,14 @@ section.tight{padding-bottom:clamp(48px,7vw,88px);}
 
 /* "ich bin ein mensch" */
 .human-check{margin:4px 0 18px;}
-.human-input{position:absolute;opacity:0;width:1px;height:1px;}
-.human-label{
-  display:inline-flex;
-  align-items:center;
-  gap:12px;
-  cursor:pointer;
-  border:1px solid var(--line-strong);
-  background:var(--paper);
-  padding:12px 16px 12px 13px;
-  user-select:none;
+.human-head{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:16px;
+  flex-wrap:wrap;
+  margin-bottom:10px;
 }
-.human-box{
-  position:relative;
-  width:24px;
-  height:24px;
-  flex-shrink:0;
-  border:1px solid var(--line-strong);
-  background:var(--paper-raised);
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  color:var(--accent2);
-  transition:border-color .15s ease, background .15s ease;
-}
-.human-tick{
-  width:16px;
-  height:16px;
-  opacity:0;
-  transform:scale(0.6);
-  transition:opacity .18s ease, transform .18s ease;
-}
-.human-spinner{
-  position:absolute;
-  width:16px;
-  height:16px;
-  border:2px solid var(--line-strong);
-  border-top-color:var(--accent);
-  border-radius:50%;
-  opacity:0;
-  animation:human-spin .7s linear infinite;
-}
-@keyframes human-spin{to{transform:rotate(360deg);}}
-.human-check.checking .human-spinner{opacity:1;}
-.human-check.verified .human-box{border-color:var(--accent2);background:var(--accent2-soft);}
-.human-check.verified .human-tick{opacity:1;transform:scale(1);}
 .human-text{
   font-family:'IBM Plex Mono',monospace;
   font-size:0.75rem;
@@ -712,9 +675,46 @@ section.tight{padding-bottom:clamp(48px,7vw,88px);}
   text-transform:uppercase;
   color:var(--ink-soft);
 }
-.human-check.verified .human-text{color:var(--ink);}
-.human-input:focus-visible + .human-label{outline:2px solid var(--accent);outline-offset:2px;}
-.human-check.invalid .human-label{border-color:#a2402f;}
+.human-target{color:var(--ink);}
+.human-reload{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.68rem;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  background:none;
+  border:0;
+  padding:2px 0;
+  cursor:pointer;
+  border-bottom:1px solid var(--line-strong);
+}
+.human-reload:hover{color:var(--accent);}
+.human-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  max-width:420px;
+}
+.human-tile{
+  aspect-ratio:8/5;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid var(--line-strong);
+  background:var(--paper);
+  color:var(--ink-soft);
+  cursor:pointer;
+  padding:8px;
+  transition:border-color .15s ease, background .15s ease, color .15s ease;
+}
+.human-tile svg{width:100%;height:100%;}
+.human-tile:hover{border-color:var(--accent);color:var(--ink);}
+.human-tile:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+.human-tile.right{border-color:var(--accent2);background:var(--accent2-soft);color:var(--accent2-strong);}
+.human-tile.wrong{border-color:#a2402f;background:#f0dedb;color:#a2402f;}
+.human-check.verified .human-tile{cursor:default;}
+.human-check.verified .human-tile:not(.right){opacity:0.4;}
+.human-check.invalid .human-grid{outline:1px solid #a2402f;outline-offset:4px;}
 
 .form-note{
   font-size:0.82rem;
@@ -1173,14 +1173,11 @@ footer.site{
               <input id="cf-web" name="web" type="text" tabindex="-1" autocomplete="off">
             </div>
             <div class="human-check" id="humanCheck">
-              <input type="checkbox" id="cf-human" name="human" class="human-input">
-              <label for="cf-human" class="human-label">
-                <span class="human-box" aria-hidden="true">
-                  <svg class="human-tick" viewBox="0 0 20 20" fill="none"><path d="M4 10.5 L8.5 15 L16 5.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="square"/></svg>
-                  <span class="human-spinner" aria-hidden="true"></span>
-                </span>
-                <span class="human-text">Ich bin ein Mensch</span>
-              </label>
+              <div class="human-head">
+                <span class="human-text" id="humanPrompt">Bildprüfung wird geladen …</span>
+                <button type="button" class="human-reload" id="humanReload">Andere Aufgabe</button>
+              </div>
+              <div class="human-grid" id="humanGrid" role="group" aria-labelledby="humanPrompt"></div>
             </div>
             <p class="form-note">Ihre Angaben werden ausschließlich zur Bearbeitung dieser Anfrage verwendet — siehe <a href="#datenschutz">Datenschutzerklärung</a>. Beim Absenden öffnet sich Ihr E-Mail-Programm mit der fertigen Nachricht an office@tbh.co.at.</p>
             <button class="btn btn-primary" type="submit">Anfrage senden</button>
@@ -1464,12 +1461,14 @@ footer.site{
 </script>
 
 <script>
-/* Projektanfrage: Pruefung, "Ich bin ein Mensch" und Versand */
+/* Projektanfrage: Pflichtfelder, Bildpruefung und Versand */
 (function(){
   var form = document.getElementById('projektanfrage');
   if(!form) return;
   var check = document.getElementById('humanCheck');
-  var box = document.getElementById('cf-human');
+  var grid = document.getElementById('humanGrid');
+  var frage = document.getElementById('humanPrompt');
+  var reload = document.getElementById('humanReload');
   var status = document.getElementById('formStatus');
   var loadedAt = Date.now();
   var verified = false;
@@ -1485,24 +1484,76 @@ footer.site{
     hp: document.getElementById('cf-web')
   };
 
-  box.addEventListener('change', function(){
+  /* Bildpruefung: Schaltzeichen aus der Elektrotechnik, im Aufbau der Seite
+     gezeichnet. Kein externer Dienst, keine Cookies, keine Uebertragung. */
+  var SYMBOLE = [
+    { k:'widerstand',  n:'Widerstand',  d:'<path d="M2 20h16M46 20h16"/><rect x="18" y="12" width="28" height="16"/>' },
+    { k:'kondensator', n:'Kondensator', d:'<path d="M2 20h24M40 20h22M26 8v24M40 8v24"/>' },
+    { k:'spule',       n:'Spule',       d:'<path d="M2 20h10M54 20h8"/><path d="M12 20a5.25 5.25 0 0 1 10.5 0a5.25 5.25 0 0 1 10.5 0a5.25 5.25 0 0 1 10.5 0a5.25 5.25 0 0 1 10.5 0"/>' },
+    { k:'batterie',    n:'Batterie',    d:'<path d="M2 20h22M24 11v18M34 15v10M34 20h28"/>' },
+    { k:'lampe',       n:'Lampe',       d:'<circle cx="32" cy="20" r="11"/><path d="M2 20h19M43 20h19M24.2 12.2l15.6 15.6M39.8 12.2L24.2 27.8"/>' },
+    { k:'schalter',    n:'Schalter',    d:'<path d="M2 20h18M44 20h18M20 20l21-10"/><circle cx="20" cy="20" r="2.4" fill="currentColor" stroke="none"/><circle cx="44" cy="20" r="2.4" fill="currentColor" stroke="none"/>' },
+    { k:'sicherung',   n:'Sicherung',   d:'<path d="M2 20h14M48 20h14M16 20h32"/><rect x="16" y="13" width="32" height="14"/>' },
+    { k:'erdung',      n:'Erdung',      d:'<path d="M32 8v12M18 20h28M23 26h18M28 32h8"/>' }
+  ];
+  var ziel = null;
+
+  function mischen(a){
+    var i, j, t;
+    for(i = a.length - 1; i > 0; i--){
+      j = Math.floor(Math.random() * (i + 1));
+      t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  function aufgabeStellen(){
     clearTimeout(timer);
+    verified = false;
+    check.classList.remove('verified');
     check.classList.remove('invalid');
-    if(box.checked){
-      verified = false;
-      check.classList.remove('verified');
-      check.classList.add('checking');
-      timer = setTimeout(function(){
-        check.classList.remove('checking');
-        check.classList.add('verified');
-        verified = true;
-      }, 700);
+
+    var auswahl = mischen(SYMBOLE.slice()).slice(0, 6);
+    ziel = auswahl[Math.floor(Math.random() * auswahl.length)];
+    frage.innerHTML = 'Bitte anklicken: <span class="human-target">' + ziel.n + '</span>';
+
+    grid.innerHTML = '';
+    mischen(auswahl).forEach(function(s){
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'human-tile';
+      b.setAttribute('data-k', s.k);
+      b.setAttribute('aria-label', 'Schaltzeichen ' + s.n);
+      b.innerHTML = '<svg viewBox="0 0 64 40" fill="none" stroke="currentColor" stroke-width="2" ' +
+                    'stroke-linecap="square" aria-hidden="true" focusable="false">' + s.d + '</svg>';
+      grid.appendChild(b);
+    });
+  }
+
+  grid.addEventListener('click', function(e){
+    /* Der Klick trifft je nach Stelle das SVG oder einen Pfad darin, nicht die
+       Schaltflaeche selbst — daher aufwaerts suchen, ohne closest(). */
+    var tile = e.target;
+    while(tile && tile !== grid && !(tile.getAttribute && tile.getAttribute('data-k'))){ tile = tile.parentNode; }
+    if(!tile || tile === grid || verified) return;
+    check.classList.remove('invalid');
+
+    if(tile.getAttribute('data-k') === ziel.k){
+      tile.classList.add('right');
+      check.classList.add('verified');
+      verified = true;
+      status.className = 'form-status';
+      status.textContent = '';
     } else {
-      check.classList.remove('checking');
-      check.classList.remove('verified');
-      verified = false;
+      tile.classList.add('wrong');
+      status.className = 'form-status err';
+      status.textContent = 'Das war ein anderes Schaltzeichen — hier kommt eine neue Aufgabe.';
+      timer = setTimeout(aufgabeStellen, 900);
     }
   });
+
+  reload.addEventListener('click', aufgabeStellen);
+  aufgabeStellen();
 
   function valid(el){
     var v = (el.value || '').trim();
@@ -1536,8 +1587,8 @@ footer.site{
     if(!verified){
       check.classList.add('invalid');
       status.className = 'form-status err';
-      status.textContent = 'Bitte bestätigen Sie noch „Ich bin ein Mensch".';
-      box.focus();
+      status.textContent = 'Bitte lösen Sie noch die Bildprüfung: ' + ziel.n + ' anklicken.';
+      if(grid.firstChild && grid.firstChild.focus) grid.firstChild.focus();
       return;
     }
 
@@ -1546,8 +1597,7 @@ footer.site{
       status.className = 'form-status ok';
       status.textContent = 'Danke, Ihre Anfrage wurde übernommen.';
       form.reset();
-      check.classList.remove('verified');
-      verified = false;
+      aufgabeStellen();
       return;
     }
 
