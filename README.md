@@ -35,24 +35,44 @@ Impressum und Datenschutz sind eigene Seiten: Ein kleiner Router blendet
 
 ## Offene Punkte vor dem Livegang
 
-- **Hosting-Provider** in der Datenschutzerklärung eintragen (steht dort
-  als einziger Platzhalter). Mit dem Provider ist ein
-  Auftragsverarbeitungsvertrag nach Art. 28 DSGVO nötig.
+- **Auftragsverarbeitungsvertrag mit Wix** abschließen bzw. den in den
+  Wix-Nutzungsbedingungen enthaltenen DPA aktiv annehmen. Die
+  Datenschutzerklärung setzt ihn bereits als bestehend voraus.
+- **Cookie-Banner in Wix aktivieren.** Die Datenschutzerklärung sagt zu,
+  dass nicht notwendige Cookies und Wix Analytics nur nach Einwilligung
+  laufen. Ohne aktivierten Consent-Dialog stimmt diese Zusage nicht.
+- **Wix-Unterauftragsverarbeiter** gegen die aktuelle Liste von Wix
+  prüfen. Im Text stehen Israel (Angemessenheitsbeschluss 2011/61/EU)
+  und Standardvertragsklauseln für die übrigen Drittstaaten.
 - **Gewerbebehörde** im Impressum gegen den Gewerbeschein prüfen —
   eingetragen ist die Bezirkshauptmannschaft Wiener Neustadt.
 - **Kontaktformular**: Es öffnet derzeit das E-Mail-Programm des
   Besuchers, es gibt keinen Serverversand. Für echten Versand ist die
-  Stelle im Skript markiert.
-- Der Abschnitt „Cookies und Reichweitenmessung“ sagt zu, dass die Seite
-  keine Cookies, kein Tracking und keine externen Dienste einbindet. Das
-  stimmt für den jetzigen Stand — sobald ein Formular-Backend, Google
-  Fonts, eine Karte oder Statistik dazukommt, muss der Absatz mitwachsen.
+  Stelle im Skript markiert. Kommt ein Backend dazu, muss der Absatz
+  „Kontaktaufnahme“ mitwachsen.
 - Rechtstexte vor der Veröffentlichung von der WKO-Rechtsberatung prüfen
   lassen.
 
 ## Veröffentlichen
 
-Noch nicht aktiv. Für GitHub Pages: unter Settings → Pages den Branch
-auswählen; `index.html` liegt bereits im Wurzelverzeichnis. Bei einem
-privaten Repository setzt Pages ein kostenpflichtiges GitHub-Konto
-voraus.
+Noch nicht aktiv — und mit Wix als Hoster ist der Weg nicht trivial:
+
+Wix ist ein Baukasten, kein Webspace. Eine fertige `index.html` lässt
+sich dort **nicht** als Startseite hochladen. Realistische Wege:
+
+1. **Seite im Wix-Editor nachbauen.** Diese Datei dient dann als
+   Vorlage für Layout, Texte und Farben. Die Rechtstexte lassen sich
+   direkt übernehmen.
+2. **Wix nur für die Domain nutzen**, die Seite selbst woanders
+   ausliefern (GitHub Pages, Netlify, Cloudflare Pages, klassischer
+   AT-Hoster) und `tbh.co.at` dorthin zeigen lassen. Dann stimmen die
+   Wix-Angaben in der Datenschutzerklärung nicht mehr — der Abschnitt
+   „Hosting & technischer Betrieb“ muss auf den tatsächlichen Anbieter
+   umgeschrieben werden.
+3. **Wix-HTML-Einbettung.** Die Seite läuft in einem iframe innerhalb
+   einer Wix-Seite. Technisch möglich, aber schlecht für Suchmaschinen
+   und die Adresszeile — nicht empfohlen.
+
+Für GitHub Pages (Weg 2): unter Settings → Pages den Branch auswählen;
+`index.html` liegt bereits im Wurzelverzeichnis. Bei einem privaten
+Repository setzt Pages ein kostenpflichtiges GitHub-Konto voraus.

@@ -107,11 +107,6 @@ body{
 .hero .eyebrow::before{background:#c9a968;}
 
 a{color:inherit;}
-.placeholder{
-  border-bottom:1px dashed var(--line-strong);
-  color:var(--ink-soft);
-  padding-bottom:0.05em;
-}
 
 .wrap{
   max-width:1180px;
@@ -536,6 +531,7 @@ section.tight{padding-bottom:clamp(48px,7vw,88px);}
   background:var(--paper-raised);
   box-shadow:0 12px 28px rgba(33,28,19,0.08);
 }
+.data-block.span-2{grid-column:1/-1;}
 .data-block .data-title{
   font-family:'IBM Plex Mono',monospace;
   font-size:0.66rem;
@@ -753,6 +749,7 @@ section.tight{padding-bottom:clamp(48px,7vw,88px);}
   font-size:0.92rem;
   max-width:58ch;
 }
+.imp-text p + p{margin-top:10px;}
 .imp-text a{color:var(--ink);}
 
 footer.site a{
@@ -1260,7 +1257,14 @@ footer.site{
             <div class="data-row"><span>Telefon</span><span><a href="tel:+43152152">+43 1 52 152-0</a></span></div>
             <div class="data-row"><span>E-Mail</span><span><a href="mailto:dsb@dsb.gv.at">dsb@dsb.gv.at</a></span></div>
             <div class="data-row"><span>Web</span><span><a href="https://www.dsb.gv.at" target="_blank" rel="noopener noreferrer">dsb.gv.at</a></span></div>
-            <div class="data-row"><span>Hosting-Provider</span><span class="placeholder">Provider eintragen</span></div>
+          </div>
+          <div class="data-block span-2">
+            <div class="data-title">Hosting &amp; technischer Betrieb</div>
+            <div class="data-row"><span>Anbieter</span><span>Wix.com Ltd.</span></div>
+            <div class="data-row"><span>Anschrift</span><span>Nemal Tel Aviv St. 40, Tel Aviv 6350671, Israel</span></div>
+            <div class="data-row"><span>Niederlassung EU</span><span>Wix.com Luxembourg S.à r.l., 5 rue Guillaume Kroll, L-1882 Luxemburg</span></div>
+            <div class="data-row"><span>Rolle</span><span>Auftragsverarbeiter gemäß Art. 28 DSGVO</span></div>
+            <div class="data-row"><span>Datenschutzerklärung</span><span><a href="https://www.wix.com/about/privacy" target="_blank" rel="noopener noreferrer">wix.com/about/privacy</a></span></div>
           </div>
         </div>
         <div class="imp-text">
@@ -1270,7 +1274,7 @@ footer.site{
           </div>
           <div>
             <h3>Server-Logfiles</h3>
-            <p>Beim Aufruf dieser Website werden vom Hosting-Provider automatisch Zugriffsdaten protokolliert: IP-Adresse, Datum und Uhrzeit des Zugriffs, aufgerufene Seite, übertragene Datenmenge, Browsertyp und Betriebssystem. Rechtsgrundlage ist unser berechtigtes Interesse am sicheren und störungsfreien Betrieb der Website (Art. 6 Abs. 1 lit. f DSGVO). Eine Zusammenführung mit anderen Daten oder eine Auswertung zu Personenprofilen erfolgt nicht.</p>
+            <p>Diese Website wird bei Wix.com Ltd. gehostet. Beim Aufruf werden dort automatisch Zugriffsdaten protokolliert: IP-Adresse, Datum und Uhrzeit des Zugriffs, aufgerufene Seite, übertragene Datenmenge, Browsertyp und Betriebssystem. Rechtsgrundlage ist unser berechtigtes Interesse am sicheren und störungsfreien Betrieb der Website (Art. 6 Abs. 1 lit. f DSGVO). Wix verarbeitet diese Daten als Auftragsverarbeiter auf Grundlage eines Vertrags gemäß Art. 28 DSGVO. Eine Zusammenführung mit anderen Daten oder eine Auswertung zu Personenprofilen durch uns erfolgt nicht.</p>
           </div>
           <div>
             <h3>Kontaktaufnahme</h3>
@@ -1282,11 +1286,14 @@ footer.site{
           </div>
           <div>
             <h3>Cookies und Reichweitenmessung</h3>
-            <p>Diese Website setzt keine Cookies, verwendet keine Analyse- oder Tracking-Werkzeuge und bindet keine externen Schriftarten-, Karten- oder Social-Media-Dienste ein. Es findet daher weder eine Einwilligungspflicht noch eine Profilbildung statt.</p>
+            <p>Die Seiteninhalte selbst setzen keine Cookies und binden keine Analyse-, Karten- oder Social-Media-Dienste ein. Die Hosting-Plattform Wix setzt jedoch technisch notwendige Cookies, die für Betrieb und Sicherheit der Website erforderlich sind — etwa zur Sitzungsverwaltung, zum Schutz vor websiteübergreifender Anfragenfälschung (CSRF) und zur Steuerung der Zwischenspeicherung. Diese Cookies sind gemäß § 165 Abs. 3 TKG 2021 nicht einwilligungspflichtig; Rechtsgrundlage ist unser berechtigtes Interesse am sicheren Betrieb (Art. 6 Abs. 1 lit. f DSGVO).</p>
+            <p>Statische Bestandteile der Seite werden über die Auslieferungsnetze von Wix bereitgestellt. Dabei wird Ihre IP-Adresse an Wix übermittelt, weil sie technische Voraussetzung jeder Auslieferung ist.</p>
+            <p>Nicht notwendige Cookies sowie die Reichweitenmessung von Wix („Wix Analytics") setzen wir nur ein, wenn Sie zuvor eingewilligt haben (Art. 6 Abs. 1 lit. a DSGVO). Ihre Einwilligung können Sie jederzeit mit Wirkung für die Zukunft widerrufen. Eine Profilbildung findet nicht statt.</p>
           </div>
           <div>
             <h3>Empfänger und Auftragsverarbeiter</h3>
-            <p>Eine Weitergabe Ihrer Daten erfolgt nur, soweit dies zur Vertragserfüllung erforderlich ist oder wir gesetzlich dazu verpflichtet sind — etwa an unseren Hosting-Provider, unsere Steuerberatung oder Behörden. Mit Dienstleistern, die in unserem Auftrag Daten verarbeiten, bestehen Auftragsverarbeitungsverträge gemäß Art. 28 DSGVO. Eine Übermittlung in Drittstaaten ohne angemessenes Datenschutzniveau findet nicht statt.</p>
+            <p>Eine Weitergabe Ihrer Daten erfolgt nur, soweit dies zur Vertragserfüllung erforderlich ist oder wir gesetzlich dazu verpflichtet sind — etwa an unseren Hosting-Anbieter, unsere Steuerberatung oder Behörden. Mit Dienstleistern, die in unserem Auftrag Daten verarbeiten, bestehen Auftragsverarbeitungsverträge gemäß Art. 28 DSGVO.</p>
+            <p>Unser Hosting-Anbieter Wix.com Ltd. hat seinen Sitz in Israel und verarbeitet Daten auch außerhalb der Europäischen Union. Für Israel hat die Europäische Kommission mit Beschluss 2011/61/EU ein angemessenes Datenschutzniveau festgestellt. Soweit Wix Unterauftragsverarbeiter in Drittstaaten ohne Angemessenheitsbeschluss einsetzt, stützt sich die Übermittlung auf die Standardvertragsklauseln der Europäischen Kommission gemäß Art. 46 Abs. 2 lit. c DSGVO.</p>
           </div>
           <div>
             <h3>Speicherdauer</h3>
