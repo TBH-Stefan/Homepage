@@ -35,15 +35,17 @@ Impressum und Datenschutz sind eigene Seiten: Ein kleiner Router blendet
 
 ## Offene Punkte vor dem Livegang
 
-- **Auftragsverarbeitungsvertrag mit Wix** abschließen bzw. den in den
-  Wix-Nutzungsbedingungen enthaltenen DPA aktiv annehmen. Die
-  Datenschutzerklärung setzt ihn bereits als bestehend voraus.
-- **Cookie-Banner in Wix aktivieren.** Die Datenschutzerklärung sagt zu,
-  dass nicht notwendige Cookies und Wix Analytics nur nach Einwilligung
-  laufen. Ohne aktivierten Consent-Dialog stimmt diese Zusage nicht.
-- **Wix-Unterauftragsverarbeiter** gegen die aktuelle Liste von Wix
-  prüfen. Im Text stehen Israel (Angemessenheitsbeschluss 2011/61/EU)
-  und Standardvertragsklauseln für die übrigen Drittstaaten.
+- **GitHub-Plan klären.** GitHub Pages läuft aus einem privaten
+  Repository nur mit kostenpflichtigem Konto (GitHub Pro oder Team).
+  Kostenlose Alternative wäre, das Repository öffentlich zu machen —
+  dann ist aber die gesamte Commit-Historie öffentlich einsehbar und
+  gehört vorher durchgesehen.
+- **Datenschutzvereinbarung mit GitHub (DPA) annehmen.** Die
+  Datenschutzerklärung setzt sie bereits als bestehend voraus.
+- **Nachprüfen, dass GitHub Pages keine Cookies setzt.** Der Text sagt
+  ausdrücklich „keine Cookies“ zu. Für statisch ausgelieferte Seiten
+  trifft das zu, ist vor dem Livegang aber einmal im Browser zu
+  kontrollieren (Entwicklerwerkzeuge → Anwendung → Cookies).
 - **Gewerbebehörde** im Impressum gegen den Gewerbeschein prüfen —
   eingetragen ist die Bezirkshauptmannschaft Wiener Neustadt.
 - **Kontaktformular**: Es öffnet derzeit das E-Mail-Programm des
@@ -55,24 +57,33 @@ Impressum und Datenschutz sind eigene Seiten: Ein kleiner Router blendet
 
 ## Veröffentlichen
 
-Noch nicht aktiv — und mit Wix als Hoster ist der Weg nicht trivial:
+Geplant ist **GitHub Pages**; Wix hält nur die Domain. Der Vorteil:
+jeder Commit aus github.dev geht automatisch live, der Ablauf
+„von überall im Browser bearbeiten“ bleibt also erhalten.
 
-Wix ist ein Baukasten, kein Webspace. Eine fertige `index.html` lässt
-sich dort **nicht** als Startseite hochladen. Realistische Wege:
+Noch nicht aktiv. Die Schritte in der Reihenfolge:
 
-1. **Seite im Wix-Editor nachbauen.** Diese Datei dient dann als
-   Vorlage für Layout, Texte und Farben. Die Rechtstexte lassen sich
-   direkt übernehmen.
-2. **Wix nur für die Domain nutzen**, die Seite selbst woanders
-   ausliefern (GitHub Pages, Netlify, Cloudflare Pages, klassischer
-   AT-Hoster) und `tbh.co.at` dorthin zeigen lassen. Dann stimmen die
-   Wix-Angaben in der Datenschutzerklärung nicht mehr — der Abschnitt
-   „Hosting & technischer Betrieb“ muss auf den tatsächlichen Anbieter
-   umgeschrieben werden.
-3. **Wix-HTML-Einbettung.** Die Seite läuft in einem iframe innerhalb
-   einer Wix-Seite. Technisch möglich, aber schlecht für Suchmaschinen
-   und die Adresszeile — nicht empfohlen.
+1. **Pages einschalten** — im Repository unter Settings → Pages als
+   Quelle Branch und Ordner `/` wählen. `index.html` liegt bereits im
+   Wurzelverzeichnis, es braucht keinen Build-Schritt. Die Seite ist
+   danach unter `tbh-stefan.github.io/homepage` erreichbar.
+2. **Erst danach die Domain umstellen.** Solange Schritt 1 nicht läuft,
+   nichts am DNS ändern.
+3. **DNS beim Domain-Inhaber setzen.** Für `www.tbh.co.at` genügt ein
+   CNAME auf `tbh-stefan.github.io`. Für die nackte Domain
+   `tbh.co.at` sind stattdessen vier A-Records nötig:
+   `185.199.108.153`, `185.199.109.153`, `185.199.110.153`,
+   `185.199.111.153`.
+4. **`CNAME`-Datei anlegen** — eine Datei namens `CNAME` im
+   Wurzelverzeichnis, Inhalt ist die gewünschte Adresse (eine Zeile,
+   z. B. `www.tbh.co.at`). Sinnvoll erst, wenn das DNS steht: sobald
+   die Datei existiert, leitet GitHub die `github.io`-Adresse auf die
+   eigene Domain um.
+5. **HTTPS erzwingen** — in den Pages-Einstellungen „Enforce HTTPS“
+   aktivieren, sobald das Zertifikat ausgestellt ist.
 
-Für GitHub Pages (Weg 2): unter Settings → Pages den Branch auswählen;
-`index.html` liegt bereits im Wurzelverzeichnis. Bei einem privaten
-Repository setzt Pages ein kostenpflichtiges GitHub-Konto voraus.
+**Achtung bei den bestehenden Einträgen:** Unter `tbh.co.at` läuft
+bereits die E-Mail (`office@tbh.co.at`) und möglicherweise eine
+bestehende Seite. Die MX-Records dürfen dabei nicht angetastet werden,
+sonst steht die Firmen-E-Mail. Im Zweifel zuerst nur `www` umstellen
+und die nackte Domain unverändert lassen.
