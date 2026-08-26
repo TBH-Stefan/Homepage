@@ -61,29 +61,34 @@ Geplant ist **GitHub Pages**; Wix hält nur die Domain. Der Vorteil:
 jeder Commit aus github.dev geht automatisch live, der Ablauf
 „von überall im Browser bearbeiten“ bleibt also erhalten.
 
-Noch nicht aktiv. Die Schritte in der Reihenfolge:
+Die Zieladresse ist **`www.tbh.co.at`**. Sie steht in der Datei
+`CNAME` im Wurzelverzeichnis — GitHub liest sie beim Einschalten von
+Pages aus und trägt die Domain automatisch ein.
 
-1. **Pages einschalten** — im Repository unter Settings → Pages als
+Weil die Datei bereits vorhanden ist, gehört das DNS **zuerst**
+gesetzt. Sonst zeigt Pages sofort auf eine Adresse, die noch nirgends
+hinführt. Die Schritte in dieser Reihenfolge:
+
+1. **DNS beim Domain-Inhaber setzen** — ein CNAME-Eintrag für die
+   Subdomain `www` auf `tbh-stefan.github.io.` (mit Punkt am Ende).
+   Kein A-Record, kein AAAA-Record für `www`.
+2. **Pages einschalten** — im Repository unter Settings → Pages als
    Quelle Branch und Ordner `/` wählen. `index.html` liegt bereits im
-   Wurzelverzeichnis, es braucht keinen Build-Schritt. Die Seite ist
-   danach unter `tbh-stefan.github.io/homepage` erreichbar.
-2. **Erst danach die Domain umstellen.** Solange Schritt 1 nicht läuft,
-   nichts am DNS ändern.
-3. **DNS beim Domain-Inhaber setzen.** Für `www.tbh.co.at` genügt ein
-   CNAME auf `tbh-stefan.github.io`. Für die nackte Domain
-   `tbh.co.at` sind stattdessen vier A-Records nötig:
-   `185.199.108.153`, `185.199.109.153`, `185.199.110.153`,
-   `185.199.111.153`.
-4. **`CNAME`-Datei anlegen** — eine Datei namens `CNAME` im
-   Wurzelverzeichnis, Inhalt ist die gewünschte Adresse (eine Zeile,
-   z. B. `www.tbh.co.at`). Sinnvoll erst, wenn das DNS steht: sobald
-   die Datei existiert, leitet GitHub die `github.io`-Adresse auf die
-   eigene Domain um.
-5. **HTTPS erzwingen** — in den Pages-Einstellungen „Enforce HTTPS“
-   aktivieren, sobald das Zertifikat ausgestellt ist.
+   Wurzelverzeichnis, es braucht keinen Build-Schritt. Die Domain aus
+   `CNAME` erscheint dort automatisch unter „Custom domain“.
+3. **Zertifikat abwarten** — GitHub stellt es selbst aus, das dauert
+   von ein paar Minuten bis zu einer Stunde. Solange kann eine
+   Zertifikatswarnung erscheinen, das ist normal.
+4. **HTTPS erzwingen** — in den Pages-Einstellungen „Enforce HTTPS“
+   aktivieren, sobald das Zertifikat steht.
 
-**Achtung bei den bestehenden Einträgen:** Unter `tbh.co.at` läuft
-bereits die E-Mail (`office@tbh.co.at`) und möglicherweise eine
-bestehende Seite. Die MX-Records dürfen dabei nicht angetastet werden,
-sonst steht die Firmen-E-Mail. Im Zweifel zuerst nur `www` umstellen
-und die nackte Domain unverändert lassen.
+**Achtung bei den bestehenden Einträgen:** Unter `tbh.co.at` läuft die
+Firmen-E-Mail (`office@tbh.co.at`). Angetastet wird nur die Subdomain
+`www` — die MX-Records der Hauptdomain bleiben unverändert, sonst steht
+die E-Mail.
+
+Die nackte Domain `tbh.co.at` zeigt danach noch nicht auf die Seite;
+wer sie ohne `www` eintippt, landet weiterhin beim alten Ziel. Wenn das
+später auch umgestellt werden soll, braucht die Hauptdomain vier
+A-Records auf `185.199.108.153`, `185.199.109.153`, `185.199.110.153`
+und `185.199.111.153` — GitHub leitet dann selbst auf `www` um.
