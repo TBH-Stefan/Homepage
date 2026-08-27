@@ -607,21 +607,49 @@ section.tight{padding-bottom:clamp(48px,7vw,88px);}
   background:var(--paper-raised);
   box-shadow:0 12px 28px rgba(33,28,19,0.08);
 }
-.contact-form{padding:clamp(18px,2.4vw,26px) clamp(18px,2.4vw,24px);}
+.form-head{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:14px;
+  flex-wrap:wrap;
+  padding:13px clamp(18px,2.4vw,24px);
+  border-bottom:1px solid var(--line-strong);
+  background:var(--paper-sunken);
+}
+.form-title{
+  margin:0;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.72rem;
+  font-weight:600;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--ink);
+}
+.form-req{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.6rem;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+}
+.form-req abbr{color:var(--accent);text-decoration:none;border:none;}
+.contact-form{padding:clamp(16px,2vw,20px) clamp(18px,2.4vw,24px) clamp(16px,2vw,20px);}
 .form-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:0 18px;
+  gap:12px 18px;
 }
-.field{margin-bottom:16px;}
+.field{margin:0;min-width:0;}
+.field.wide{grid-column:1/-1;}
 .field label{
   display:block;
   font-family:'IBM Plex Mono',monospace;
-  font-size:0.68rem;
+  font-size:0.65rem;
   letter-spacing:0.08em;
   text-transform:uppercase;
   color:var(--ink-soft);
-  margin-bottom:6px;
+  margin-bottom:5px;
 }
 .field abbr{color:var(--accent);text-decoration:none;border:none;}
 .field input,
@@ -629,15 +657,15 @@ section.tight{padding-bottom:clamp(48px,7vw,88px);}
 .field textarea{
   width:100%;
   font-family:'IBM Plex Sans',-apple-system,'Segoe UI',Arial,sans-serif;
-  font-size:0.95rem;
+  font-size:0.92rem;
   color:var(--ink);
   background:var(--paper);
   border:1px solid var(--line-strong);
   border-radius:0;
-  padding:11px 13px;
+  padding:9px 12px;
   transition:border-color .15s ease, box-shadow .15s ease;
 }
-.field textarea{resize:vertical;min-height:130px;line-height:1.6;}
+.field textarea{resize:vertical;min-height:104px;line-height:1.55;}
 .field input:focus,
 .field select:focus,
 .field textarea:focus{
@@ -658,69 +686,53 @@ section.tight{padding-bottom:clamp(48px,7vw,88px);}
   overflow:hidden;
 }
 
-/* "ich bin ein mensch" */
-.human-check{margin:4px 0 18px;}
-.human-head{
+/* Sicherheitsfrage und Absendeknopf teilen sich eine Zeile */
+.form-foot{
   display:flex;
-  align-items:baseline;
+  align-items:flex-end;
   justify-content:space-between;
-  gap:16px;
+  gap:18px;
   flex-wrap:wrap;
-  margin-bottom:10px;
+  margin-top:16px;
 }
-.human-text{
+.human-row{display:flex;align-items:center;gap:9px;}
+.human-q{
   font-family:'IBM Plex Mono',monospace;
-  font-size:0.75rem;
-  letter-spacing:0.06em;
-  text-transform:uppercase;
-  color:var(--ink-soft);
+  font-size:0.92rem;
+  letter-spacing:0.04em;
+  color:var(--ink);
+  font-variant-numeric:tabular-nums;
+  white-space:nowrap;
 }
-.human-target{color:var(--ink);}
+.human-check input{
+  width:58px;
+  text-align:center;
+  font-variant-numeric:tabular-nums;
+}
 .human-reload{
-  font-family:'IBM Plex Mono',monospace;
-  font-size:0.68rem;
-  letter-spacing:0.06em;
-  text-transform:uppercase;
-  color:var(--ink-soft);
-  background:none;
-  border:0;
-  padding:2px 0;
-  cursor:pointer;
-  border-bottom:1px solid var(--line-strong);
-}
-.human-reload:hover{color:var(--accent);}
-.human-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-  max-width:420px;
-}
-.human-tile{
-  aspect-ratio:8/5;
-  display:flex;
+  flex-shrink:0;
+  width:36px;
+  height:39px;
+  display:inline-flex;
   align-items:center;
   justify-content:center;
   border:1px solid var(--line-strong);
   background:var(--paper);
   color:var(--ink-soft);
   cursor:pointer;
-  padding:8px;
-  transition:border-color .15s ease, background .15s ease, color .15s ease;
+  padding:0;
+  transition:border-color .15s ease, color .15s ease;
 }
-.human-tile svg{width:100%;height:100%;}
-.human-tile:hover{border-color:var(--accent);color:var(--ink);}
-.human-tile:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
-.human-tile.right{border-color:var(--accent2);background:var(--accent2-soft);color:var(--accent2-strong);}
-.human-tile.wrong{border-color:#a2402f;background:#f0dedb;color:#a2402f;}
-.human-check.verified .human-tile{cursor:default;}
-.human-check.verified .human-tile:not(.right){opacity:0.4;}
-.human-check.invalid .human-grid{outline:1px solid #a2402f;outline-offset:4px;}
+.human-reload svg{width:15px;height:15px;}
+.human-reload:hover{border-color:var(--accent);color:var(--accent);}
+.human-reload:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+.form-foot .btn{flex-shrink:0;}
 
 .form-note{
   font-size:0.82rem;
   line-height:1.6;
   color:var(--ink-soft);
-  margin:0 0 18px;
+  margin:16px 0 0;
 }
 .form-note a{color:var(--ink);}
 .contact-form .btn{border:none;cursor:pointer;}
@@ -1134,7 +1146,10 @@ footer.site{
           <p>Ob erste Machbarkeitsfrage oder fertiges Ausschreibungspaket — schildern Sie uns Ihr Vorhaben, wir melden uns mit den nächsten Schritten.</p>
         </div>
         <div class="form-card">
-          <div class="data-title">Projektanfrage</div>
+          <div class="form-head">
+            <h3 class="form-title">Projektanfrage</h3>
+            <span class="form-req">Felder mit <abbr title="Pflichtfeld">*</abbr> sind erforderlich</span>
+          </div>
           <form class="contact-form" id="projektanfrage" novalidate>
             <div class="form-grid">
               <div class="field">
@@ -1153,34 +1168,39 @@ footer.site{
                 <label for="cf-telefon">Telefon</label>
                 <input id="cf-telefon" name="telefon" type="tel" autocomplete="tel">
               </div>
-            </div>
-            <div class="field">
-              <label for="cf-art">Art des Vorhabens</label>
-              <select id="cf-art" name="art">
-                <option>Planung &amp; Ausschreibung</option>
-                <option>Berechnung &amp; Nachweis</option>
-                <option>Prüfung &amp; Befund</option>
-                <option>Beratung / erste Einschätzung</option>
-                <option>Sonstiges</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="cf-nachricht">Ihr Vorhaben <abbr title="Pflichtfeld">*</abbr></label>
-              <textarea id="cf-nachricht" name="nachricht" rows="6" placeholder="Objekt, Umfang, gewünschter Termin — je konkreter, desto genauer die Rückmeldung." required></textarea>
+              <div class="field wide">
+                <label for="cf-art">Art des Vorhabens</label>
+                <select id="cf-art" name="art">
+                  <option>Planung &amp; Ausschreibung</option>
+                  <option>Berechnung &amp; Nachweis</option>
+                  <option>Prüfung &amp; Befund</option>
+                  <option>Beratung / erste Einschätzung</option>
+                  <option>Sonstiges</option>
+                </select>
+              </div>
+              <div class="field wide">
+                <label for="cf-nachricht">Ihr Vorhaben <abbr title="Pflichtfeld">*</abbr></label>
+                <textarea id="cf-nachricht" name="nachricht" rows="4" placeholder="Objekt, Umfang, gewünschter Termin — je konkreter, desto genauer die Rückmeldung." required></textarea>
+              </div>
             </div>
             <div class="hp-field" aria-hidden="true">
               <label for="cf-web">Dieses Feld bitte frei lassen</label>
               <input id="cf-web" name="web" type="text" tabindex="-1" autocomplete="off">
             </div>
-            <div class="human-check" id="humanCheck">
-              <div class="human-head">
-                <span class="human-text" id="humanPrompt">Bildprüfung wird geladen …</span>
-                <button type="button" class="human-reload" id="humanReload">Andere Aufgabe</button>
+            <div class="form-foot">
+              <div class="field human-check" id="humanCheck">
+                <label for="cf-human">Sicherheitsfrage <abbr title="Pflichtfeld">*</abbr></label>
+                <div class="human-row">
+                  <span class="human-q" id="humanPrompt"></span>
+                  <input id="cf-human" name="human" type="text" inputmode="numeric" autocomplete="off" aria-describedby="humanPrompt">
+                  <button type="button" class="human-reload" id="humanReload" aria-label="Neue Sicherheitsfrage">
+                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" focusable="false"><path d="M17 10a7 7 0 1 1-2.05-4.95"/><path d="M17 3v4h-4"/></svg>
+                  </button>
+                </div>
               </div>
-              <div class="human-grid" id="humanGrid" role="group" aria-labelledby="humanPrompt"></div>
+              <button class="btn btn-primary" type="submit">Anfrage senden</button>
             </div>
             <p class="form-note">Ihre Angaben werden ausschließlich zur Bearbeitung dieser Anfrage verwendet — siehe <a href="#datenschutz">Datenschutzerklärung</a>. Beim Absenden öffnet sich Ihr E-Mail-Programm mit der fertigen Nachricht an office@tbh.co.at.</p>
-            <button class="btn btn-primary" type="submit">Anfrage senden</button>
             <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
           </form>
         </div>
@@ -1465,14 +1485,11 @@ footer.site{
 (function(){
   var form = document.getElementById('projektanfrage');
   if(!form) return;
-  var check = document.getElementById('humanCheck');
-  var grid = document.getElementById('humanGrid');
   var frage = document.getElementById('humanPrompt');
+  var eingabe = document.getElementById('cf-human');
   var reload = document.getElementById('humanReload');
   var status = document.getElementById('formStatus');
   var loadedAt = Date.now();
-  var verified = false;
-  var timer;
 
   var f = {
     name: document.getElementById('cf-name'),
@@ -1484,75 +1501,27 @@ footer.site{
     hp: document.getElementById('cf-web')
   };
 
-  /* Bildpruefung: Schaltzeichen aus der Elektrotechnik, im Aufbau der Seite
-     gezeichnet. Kein externer Dienst, keine Cookies, keine Uebertragung. */
-  var SYMBOLE = [
-    { k:'widerstand',  n:'Widerstand',  d:'<path d="M2 20h16M46 20h16"/><rect x="18" y="12" width="28" height="16"/>' },
-    { k:'kondensator', n:'Kondensator', d:'<path d="M2 20h24M40 20h22M26 8v24M40 8v24"/>' },
-    { k:'spule',       n:'Spule',       d:'<path d="M2 20h10M54 20h8"/><path d="M12 20a5.25 5.25 0 0 1 10.5 0a5.25 5.25 0 0 1 10.5 0a5.25 5.25 0 0 1 10.5 0a5.25 5.25 0 0 1 10.5 0"/>' },
-    { k:'batterie',    n:'Batterie',    d:'<path d="M2 20h22M24 11v18M34 15v10M34 20h28"/>' },
-    { k:'lampe',       n:'Lampe',       d:'<circle cx="32" cy="20" r="11"/><path d="M2 20h19M43 20h19M24.2 12.2l15.6 15.6M39.8 12.2L24.2 27.8"/>' },
-    { k:'schalter',    n:'Schalter',    d:'<path d="M2 20h18M44 20h18M20 20l21-10"/><circle cx="20" cy="20" r="2.4" fill="currentColor" stroke="none"/><circle cx="44" cy="20" r="2.4" fill="currentColor" stroke="none"/>' },
-    { k:'sicherung',   n:'Sicherung',   d:'<path d="M2 20h14M48 20h14M16 20h32"/><rect x="16" y="13" width="32" height="14"/>' },
-    { k:'erdung',      n:'Erdung',      d:'<path d="M32 8v12M18 20h28M23 26h18M28 32h8"/>' }
-  ];
-  var ziel = null;
-
-  function mischen(a){
-    var i, j, t;
-    for(i = a.length - 1; i > 0; i--){
-      j = Math.floor(Math.random() * (i + 1));
-      t = a[i]; a[i] = a[j]; a[j] = t;
-    }
-    return a;
-  }
+  /* Sicherheitsfrage: kleine Rechenaufgabe, in der Seite erzeugt. Kein externer
+     Dienst, keine Cookies, keine Uebertragung. Sie haelt schlichte Automaten ab;
+     den eigentlichen Schutz leisten Koederfeld und Zeitschwelle weiter unten. */
+  var loesung = 0;
 
   function aufgabeStellen(){
-    clearTimeout(timer);
-    verified = false;
-    check.classList.remove('verified');
-    check.classList.remove('invalid');
-
-    var auswahl = mischen(SYMBOLE.slice()).slice(0, 6);
-    ziel = auswahl[Math.floor(Math.random() * auswahl.length)];
-    frage.innerHTML = 'Bitte anklicken: <span class="human-target">' + ziel.n + '</span>';
-
-    grid.innerHTML = '';
-    mischen(auswahl).forEach(function(s){
-      var b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'human-tile';
-      b.setAttribute('data-k', s.k);
-      b.setAttribute('aria-label', 'Schaltzeichen ' + s.n);
-      b.innerHTML = '<svg viewBox="0 0 64 40" fill="none" stroke="currentColor" stroke-width="2" ' +
-                    'stroke-linecap="square" aria-hidden="true" focusable="false">' + s.d + '</svg>';
-      grid.appendChild(b);
-    });
+    var a = 2 + Math.floor(Math.random() * 8);   /* 2..9 */
+    var b = 1 + Math.floor(Math.random() * 8);   /* 1..8 */
+    if(Math.random() < 0.5 && a > b){
+      loesung = a - b;
+      frage.textContent = a + ' − ' + b + ' =';
+    } else {
+      loesung = a + b;
+      frage.textContent = a + ' + ' + b + ' =';
+    }
+    eingabe.value = '';
+    eingabe.classList.remove('invalid');
   }
 
-  grid.addEventListener('click', function(e){
-    /* Der Klick trifft je nach Stelle das SVG oder einen Pfad darin, nicht die
-       Schaltflaeche selbst — daher aufwaerts suchen, ohne closest(). */
-    var tile = e.target;
-    while(tile && tile !== grid && !(tile.getAttribute && tile.getAttribute('data-k'))){ tile = tile.parentNode; }
-    if(!tile || tile === grid || verified) return;
-    check.classList.remove('invalid');
-
-    if(tile.getAttribute('data-k') === ziel.k){
-      tile.classList.add('right');
-      check.classList.add('verified');
-      verified = true;
-      status.className = 'form-status';
-      status.textContent = '';
-    } else {
-      tile.classList.add('wrong');
-      status.className = 'form-status err';
-      status.textContent = 'Das war ein anderes Schaltzeichen — hier kommt eine neue Aufgabe.';
-      timer = setTimeout(aufgabeStellen, 900);
-    }
-  });
-
-  reload.addEventListener('click', aufgabeStellen);
+  eingabe.addEventListener('input', function(){ eingabe.classList.remove('invalid'); });
+  reload.addEventListener('click', function(){ aufgabeStellen(); eingabe.focus(); });
   aufgabeStellen();
 
   function valid(el){
@@ -1584,11 +1553,13 @@ footer.site{
       return;
     }
 
-    if(!verified){
-      check.classList.add('invalid');
+    if(parseInt(eingabe.value, 10) !== loesung){
+      eingabe.classList.add('invalid');
       status.className = 'form-status err';
-      status.textContent = 'Bitte lösen Sie noch die Bildprüfung: ' + ziel.n + ' anklicken.';
-      if(grid.firstChild && grid.firstChild.focus) grid.firstChild.focus();
+      status.textContent = eingabe.value.trim() === ''
+        ? 'Bitte beantworten Sie noch die Sicherheitsfrage.'
+        : 'Das Ergebnis der Sicherheitsfrage stimmt nicht.';
+      eingabe.focus();
       return;
     }
 
