@@ -1201,8 +1201,8 @@ footer.site{
                 <input id="cf-email" name="email" type="email" autocomplete="email" required>
               </div>
               <div class="field">
-                <label for="cf-telefon">Telefon</label>
-                <input id="cf-telefon" name="telefon" type="tel" autocomplete="tel">
+                <label for="cf-telefon">Telefon <abbr title="Pflichtfeld">*</abbr></label>
+                <input id="cf-telefon" name="telefon" type="tel" autocomplete="tel" required>
               </div>
               <div class="field wide">
                 <label for="cf-art">Art des Vorhabens</label>
@@ -1568,10 +1568,14 @@ footer.site{
     var v = (el.value || '').trim();
     if(!v) return false;
     if(el.type === 'email') return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+    /* Telefon: bewusst nachsichtig — Schreibweisen sind zu vielfaeltig fuer ein
+       strenges Muster. Verlangt werden nur mindestens sechs Ziffern, damit ein
+       Strich oder ein einzelnes Zeichen nicht als Nummer durchgeht. */
+    if(el.type === 'tel') return (v.replace(/\D/g, '').length >= 6);
     return true;
   }
 
-  ['name','email','nachricht'].forEach(function(k){
+  ['name','email','telefon','nachricht'].forEach(function(k){
     f[k].addEventListener('input', function(){ f[k].classList.remove('invalid'); });
   });
 
@@ -1581,14 +1585,16 @@ footer.site{
     status.textContent = '';
 
     var bad = [];
-    ['name','email','nachricht'].forEach(function(k){
+    ['name','email','telefon','nachricht'].forEach(function(k){
       var ok = valid(f[k]);
       f[k].classList.toggle('invalid', !ok);
       if(!ok) bad.push(f[k]);
     });
     if(bad.length){
       status.className = 'form-status err';
-      status.textContent = 'Bitte Name, E-Mail und Beschreibung des Vorhabens ausfüllen.';
+      status.textContent = (bad.length === 1 && bad[0] === f.telefon && f.telefon.value.trim() !== '')
+        ? 'Bitte eine erreichbare Telefonnummer angeben.'
+        : 'Bitte Name, E-Mail, Telefon und Beschreibung des Vorhabens ausfüllen.';
       bad[0].focus();
       return;
     }
@@ -1616,7 +1622,7 @@ footer.site{
       'Name: ' + f.name.value.trim(),
       'Firma: ' + (f.firma.value.trim() || '—'),
       'E-Mail: ' + f.email.value.trim(),
-      'Telefon: ' + (f.telefon.value.trim() || '—'),
+      'Telefon: ' + f.telefon.value.trim(),
       'Art des Vorhabens: ' + f.art.value,
       '',
       f.nachricht.value.trim()
