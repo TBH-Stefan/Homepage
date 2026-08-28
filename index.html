@@ -1209,15 +1209,23 @@ footer.site{
               <div class="field wide">
                 <label for="cf-art">Art des Vorhabens</label>
                 <select id="cf-art" name="art">
-                  <option>Planung — Stark- oder Schwachstrom</option>
-                  <option>Planung — Beleuchtung oder Blitzschutz</option>
-                  <option>Ausschreibung &amp; Vergabe</option>
-                  <option>Örtliche Bauaufsicht / Projektbegleitung</option>
-                  <option>Anlagenprüfung &amp; Elektrobefund</option>
-                  <option>NA-Schutz-Prüfung</option>
-                  <option>Netzqualität, Thermografie, Beleuchtungsmessung</option>
-                  <option>Beratung / erste Einschätzung</option>
-                  <option>Sonstiges</option>
+                  <option value="">Bitte wählen</option>
+                  <optgroup label="Planung">
+                    <option>Elektroplanung (Stark- &amp; Schwachstrom)</option>
+                    <option>Beleuchtung &amp; Blitzschutz</option>
+                  </optgroup>
+                  <optgroup label="Projektbegleitung">
+                    <option>Ausschreibung &amp; Vergabe</option>
+                    <option>Bauaufsicht &amp; Abnahme</option>
+                  </optgroup>
+                  <optgroup label="Messtechnik">
+                    <option>Anlagenprüfung &amp; Elektrobefund</option>
+                    <option>NA-Schutz-Prüfung</option>
+                    <option>Netzqualität, Thermografie, Beleuchtung</option>
+                  </optgroup>
+                  <optgroup label="Allgemein">
+                    <option>Beratung / Sonstiges</option>
+                  </optgroup>
                 </select>
               </div>
               <div class="field wide">
@@ -1625,7 +1633,7 @@ footer.site{
       'Firma: ' + (f.firma.value.trim() || '—'),
       'E-Mail: ' + f.email.value.trim(),
       'Telefon: ' + f.telefon.value.trim(),
-      'Art des Vorhabens: ' + f.art.value,
+      'Art des Vorhabens: ' + (f.art.value || 'keine Angabe'),
       '',
       f.nachricht.value.trim()
     ].join('\n');
