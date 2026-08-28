@@ -652,6 +652,7 @@ section.tight{padding-bottom:clamp(48px,7vw,88px);}
 .contact-plane .plane-trail{color:var(--accent2);stroke:var(--accent2);}
 @keyframes plane-trail{to{stroke-dashoffset:-12px;}}
 .contact-plane .plane-trail{animation:plane-trail 2.4s linear infinite;}
+.contact-plane--head{display:none;}
 .data-block{
   border:1px solid var(--line-strong);
   background:var(--paper-raised);
@@ -997,8 +998,17 @@ footer.site{
   .footer-inner{grid-template-columns:1fr 1fr;}
   .imp-grid,.imp-text{grid-template-columns:1fr;}
   .services-grid,.ref-grid{grid-template-columns:1fr;}
-  /* Auf schmalen Schirmen darf die Zeichnung das Formular nicht wegdruecken */
-  .contact-plane{max-width:150px;margin-top:20px;}
+  /* Auf schmalen Schirmen wandert die Zeichnung neben die Ueberschrift.
+     Dort nimmt sie keine eigene Hoehe vor dem Formular weg. */
+  .contact-plane--side{display:none;}
+  .contact-plane--head{
+    display:block;
+    max-width:108px;
+    margin:0;
+    flex:0 0 auto;
+  }
+  #kontakt .section-head{align-items:center;flex-wrap:nowrap;gap:16px;}
+  #kontakt .section-head > div{flex:1 1 auto;min-width:0;}
 }
 @media (min-width:861px) and (max-width:1080px){
   .services-grid,.ref-grid{grid-template-columns:1fr 1fr;}
@@ -1286,11 +1296,21 @@ footer.site{
           <span class="eyebrow">Kontakt — Projekt anfragen</span>
           <h2 class="font-display">Sprechen wir über Ihr Vorhaben</h2>
         </div>
+        <!-- Dieselbe Zeichnung wie unten, nur fuer schmale Schirme: dort steht
+             sie neben der Ueberschrift statt ueber dem Formular. -->
+        <svg class="contact-plane contact-plane--head" viewBox="0 0 300 410" fill="none" aria-hidden="true" focusable="false">
+          <g class="plane-body" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">
+            <path d="M28 92 L272 26 L152 202 L124 116 Z"/>
+            <path d="M272 26 L124 116"/>
+          </g>
+          <path class="plane-trail" d="M150 214 C 176 252, 140 274, 106 288 C 68 304, 44 336, 70 360 C 96 382, 140 366, 138 336 C 136 312, 108 306, 96 324"
+                stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-dasharray="0.1 12"/>
+        </svg>
       </div>
       <div class="contact-grid">
         <div class="contact-copy">
           <p>Ob erste Machbarkeitsfrage oder fertiges Ausschreibungspaket — schildern Sie uns Ihr Vorhaben, wir melden uns mit den nächsten Schritten.</p>
-          <svg class="contact-plane" viewBox="0 0 300 410" fill="none" aria-hidden="true" focusable="false">
+          <svg class="contact-plane contact-plane--side" viewBox="0 0 300 410" fill="none" aria-hidden="true" focusable="false">
             <g class="plane-body" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">
               <path d="M28 92 L272 26 L152 202 L124 116 Z"/>
               <path d="M272 26 L124 116"/>
