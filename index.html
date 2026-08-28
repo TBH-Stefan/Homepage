@@ -294,29 +294,41 @@ nav.main a:hover, nav.main a:focus-visible{
 .btn-ghost{border-color:var(--line-strong);color:var(--ink);}
 .btn-ghost:hover, .btn-ghost:focus-visible{border-color:var(--accent);color:var(--accent);transform:translateY(-1px);}
 
+/* Die drei Schwerpunkte direkt unter dem Aufmacher — der Name traegt die
+   Zeile, die Aufzaehlung darunter sagt, was dahinter steckt. */
 .spec-strip{
   border-top:1px solid var(--line);
   display:grid;
-  grid-template-columns:repeat(4,1fr);
+  grid-template-columns:repeat(3,1fr);
 }
 .spec-strip div{
-  padding:16px clamp(20px,4vw,48px);
+  padding:18px clamp(20px,4vw,48px) 20px;
   border-right:1px solid var(--line);
   font-family:'IBM Plex Mono',monospace;
-  font-size:0.7rem;
-  letter-spacing:0.06em;
-  text-transform:uppercase;
-  color:var(--ink-soft);
+  font-size:0.66rem;
+  letter-spacing:0.1em;
+  color:var(--accent);
 }
 .spec-strip div:last-child{border-right:none;}
 .spec-strip strong{
   display:block;
   color:var(--ink);
-  font-size:0.95rem;
-  font-family:'IBM Plex Sans',sans-serif;
-  text-transform:none;
+  font-size:1.32rem;
+  font-family:'Big Shoulders','IBM Plex Sans',sans-serif;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:0.02em;
+  line-height:1.05;
+  margin:6px 0 5px;
+}
+.spec-strip span{
+  display:block;
+  font-family:'IBM Plex Sans',-apple-system,'Segoe UI',Arial,sans-serif;
+  font-size:0.84rem;
   letter-spacing:0;
-  margin-top:3px;
+  text-transform:none;
+  color:var(--ink-soft);
+  line-height:1.45;
 }
 
 /* uebergelagerte messung (U / I / f) — liegt hinter allen Inhalten der Startseite */
@@ -953,8 +965,9 @@ footer.site{
   }
   .header-cta{display:none;}
   .hero-copy{max-width:100%;}
-  .spec-strip{grid-template-columns:repeat(2,1fr);}
-  .spec-strip div:nth-child(2){border-right:none;}
+  .spec-strip{grid-template-columns:1fr;}
+  .spec-strip div{border-right:none;border-bottom:1px solid var(--line);}
+  .spec-strip div:last-child{border-bottom:none;}
   .about-grid,.contact-grid{grid-template-columns:1fr;}
   .form-grid{grid-template-columns:1fr;}
   .footer-inner{grid-template-columns:1fr 1fr;}
@@ -1010,10 +1023,9 @@ footer.site{
     </div>
   </section>
   <div class="spec-strip wrap" style="padding-left:0;padding-right:0;">
-    <div>Planung<strong>Stark &amp; Schwachstrom</strong></div>
-    <div>Begleitung<strong>bis zur Abnahme</strong></div>
-    <div>Messtechnik<strong>OVE E 8101</strong></div>
-    <div>Standort<strong>Wöllersdorf, NÖ</strong></div>
+    <div>01<strong>Planung</strong><span>Stark- &amp; Schwachstrom, Beleuchtung, Blitzschutz</span></div>
+    <div>02<strong>Begleitung</strong><span>Ausschreibung, Bauaufsicht, Abnahme</span></div>
+    <div>03<strong>Messtechnik</strong><span>Anlagenprüfung, NA-Schutz, Netzqualität</span></div>
   </div>
 
   <section id="leistungen">
