@@ -452,26 +452,49 @@ section.tight{padding-bottom:clamp(48px,7vw,88px);}
   box-shadow:0 10px 24px rgba(33,28,19,0.10);
   z-index:1;
 }
+/* Kopfzeile der Saeule: Die drei Schwerpunkte folgen dem Ablauf eines
+   Projekts. Die Fortschrittsleiste macht sichtbar, an welcher Stelle
+   des Ablaufs die jeweilige Saeule steht. */
 .service-top{
   display:flex;
   align-items:center;
-  justify-content:space-between;
-  margin-bottom:20px;
+  gap:10px;
+  padding-bottom:14px;
+  margin-bottom:18px;
+  border-bottom:1px solid var(--line);
+}
+.phase-bar{
+  display:flex;
+  gap:3px;
+  flex-shrink:0;
+}
+.phase-bar span{
+  width:14px;
+  height:4px;
+  background:var(--line-strong);
+  opacity:0.45;
+}
+.phase-bar span.on{
+  background:var(--accent);
+  opacity:1;
 }
 .service-code{
   font-family:'IBM Plex Mono',monospace;
-  font-size:0.72rem;
-  letter-spacing:0.08em;
+  font-size:0.66rem;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
   color:var(--ink-soft);
 }
 .service-icon{
-  width:30px;height:30px;
+  width:42px;height:42px;
   color:var(--accent);
+  margin-bottom:14px;
+  display:block;
 }
 .service-card h3{
   font-family:'IBM Plex Sans',sans-serif;
   font-weight:600;
-  font-size:1.08rem;
+  font-size:1.24rem;
   margin:0 0 10px;
   letter-spacing:0;
   text-transform:none;
@@ -480,6 +503,26 @@ section.tight{padding-bottom:clamp(48px,7vw,88px);}
   margin:0;
   color:var(--ink-soft);
   font-size:0.92rem;
+}
+.service-strength{
+  margin:16px 0 0;
+  padding:12px 14px;
+  background:var(--paper-raised);
+  border-left:3px solid var(--accent);
+}
+.service-strength .strength-label{
+  display:block;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:0.6rem;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--accent-strong);
+  margin-bottom:5px;
+}
+.service-strength p{
+  font-size:0.9rem;
+  line-height:1.5;
+  color:var(--ink);
 }
 
 /* ueber uns */
@@ -987,11 +1030,16 @@ footer.site{
 
       <div class="service-card">
         <div class="service-top">
-          <span class="service-code">01</span>
-          <svg class="service-icon" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="22" height="22"/><path d="M4 11h22M11 26V11"/><circle cx="18.5" cy="18.5" r="3.5"/></svg>
+          <span class="phase-bar" aria-hidden="true"><span class="on"></span><span></span><span></span></span>
+          <span class="service-code">Phase 01 — vor dem Bau</span>
         </div>
+        <svg class="service-icon" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false"><rect x="4" y="4" width="22" height="22"/><path d="M4 11h22M11 26V11"/><circle cx="18.5" cy="18.5" r="3.5"/></svg>
         <h3>Planung</h3>
         <p>Elektrotechnische Fachplanung von der Vorplanung bis zur Ausführungsreife — eigenständig oder als Fachbereich im Planungsteam.</p>
+        <div class="service-strength">
+          <span class="strength-label">Stärke</span>
+          <p>Ausschreibungsreife Unterlagen: Jeder Installateur bietet auf dieselbe Leistung an. Sie vergleichen Preise statt Pauschalen.</p>
+        </div>
         <ul class="service-list">
           <li><strong>Starkstrom</strong> — Energieverteilung, Trafo- und Niederspannungsanlagen, Verteilerkonzepte</li>
           <li><strong>Schwachstrom</strong> — EDV- und Netzwerktechnik, Brandmelde-, Sicherheits- und Zutrittsanlagen</li>
@@ -1002,11 +1050,16 @@ footer.site{
 
       <div class="service-card">
         <div class="service-top">
-          <span class="service-code">02</span>
-          <svg class="service-icon" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="4" y1="15" x2="26" y2="15"/><circle cx="7" cy="15" r="2.6" fill="currentColor" stroke="none"/><circle cx="15" cy="15" r="2.6"/><circle cx="23" cy="15" r="2.6"/><path d="M4 8h6M20 22h6"/></svg>
+          <span class="phase-bar" aria-hidden="true"><span class="on"></span><span class="on"></span><span></span></span>
+          <span class="service-code">Phase 02 — während der Ausführung</span>
         </div>
+        <svg class="service-icon" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false"><path d="M11 5H6v21h18V5h-5"/><rect x="11" y="2.5" width="8" height="4.5"/><path d="M10 16l3.5 3.5L20 13" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <h3>Projektbegleitung</h3>
         <p>Wir bleiben am Projekt, bis die Anlage abgenommen und vollständig dokumentiert ist — als Vertretung Ihrer Interessen gegenüber den ausführenden Firmen.</p>
+        <div class="service-strength">
+          <span class="strength-label">Stärke</span>
+          <p>Wir führen nicht aus. Unsere Kontrolle hängt an keinem Folgeauftrag und an keinem Lieferanten.</p>
+        </div>
         <ul class="service-list">
           <li><strong>Ausschreibung &amp; Vergabe</strong> — Leistungsverzeichnisse, Angebotsprüfung, Vergabeempfehlung</li>
           <li><strong>Örtliche Bauaufsicht</strong> — Ausführungskontrolle, Koordination der Gewerke, Termin- und Qualitätsverfolgung</li>
@@ -1017,11 +1070,16 @@ footer.site{
 
       <div class="service-card">
         <div class="service-top">
-          <span class="service-code">03</span>
-          <svg class="service-icon" viewBox="0 0 30 30" fill="none"><path d="M6 22a9 9 0 1 1 18 0" stroke="currentColor" stroke-width="1.5"/><line x1="15" y1="22" x2="20" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="15" cy="22" r="1.4" fill="currentColor"/></svg>
+          <span class="phase-bar" aria-hidden="true"><span class="on"></span><span class="on"></span><span class="on"></span></span>
+          <span class="service-code">Phase 03 — Übergabe und Betrieb</span>
         </div>
+        <svg class="service-icon" viewBox="0 0 30 30" fill="none" aria-hidden="true" focusable="false"><path d="M4 24a11 11 0 1 1 22 0" stroke="currentColor" stroke-width="1.4"/><path d="M4.6 19.8l2.4-.9M15 11.8v2.6M25.4 19.8l-2.4-.9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><line x1="15" y1="24" x2="21.5" y2="15" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="15" cy="24" r="1.7" fill="currentColor"/></svg>
         <h3>Messtechnik</h3>
         <p>Messungen und Befunde führen wir selbst durch — mit eigenem Gerät, nachvollziehbarem Protokoll und einer Auswertung, die auch ohne Fachjargon lesbar bleibt.</p>
+        <div class="service-strength">
+          <span class="strength-label">Stärke</span>
+          <p>Eigenes Messgerät, eigener Befund — ohne Fremdvergabe. Wer geplant hat, misst auch nach.</p>
+        </div>
         <ul class="service-list">
           <li><strong>Anlagenprüfung</strong> — Erst- und wiederkehrende Prüfung nach OVE E 8101: Isolationswiderstand, Schutzleiter, Fehlerstromschutzschalter, Schleifenimpedanz, samt Elektrobefund</li>
           <li><strong>NA-Schutz</strong> — Prüfung des Netz- und Anlagenschutzes von Erzeugungsanlagen, mit Protokoll für den Netzbetreiber</li>
