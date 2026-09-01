@@ -257,8 +257,8 @@ nav.main a:hover, nav.main a:focus-visible{
   background-size:cover;
   background-position:52% 66%;
 }
-/* Schleier ueber dem Foto: dunkelt die Seite mit dem Schriftsatz ab, laesst
-   die Anlage rechts stehen und legt das technische Raster wieder obenauf.
+/* Schleier ueber dem Foto: dunkelt die Seite mit dem Schriftsatz ab und laesst
+   die Anlage rechts stehen. Ohne Raster darueber, damit das Foto wirkt.
    Liegt als Pseudoelement vor der Messkurve und hinter .hero-inner. */
 .hero::before{
   content:"";
@@ -270,8 +270,6 @@ nav.main a:hover, nav.main a:focus-visible{
   z-index:0;
   pointer-events:none;
   background-image:
-    linear-gradient(var(--line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--line) 1px, transparent 1px),
     linear-gradient(100deg,
       rgba(21,17,11,0.96) 0%,
       rgba(21,17,11,0.93) 34%,
@@ -283,8 +281,6 @@ nav.main a:hover, nav.main a:focus-visible{
       rgba(21,17,11,0.14) 58%,
       rgba(21,17,11,0.34) 84%,
       rgba(21,17,11,0.82) 100%);
-  background-size:56px 56px, 56px 56px, auto, auto;
-  background-position:center -1px, center -1px, 0 0, 0 0;
 }
 .hero-inner{
   position:relative;
@@ -1034,16 +1030,12 @@ footer.site{
   }
   .hero::before{
     background-image:
-      linear-gradient(var(--line) 1px, transparent 1px),
-      linear-gradient(90deg, var(--line) 1px, transparent 1px),
       linear-gradient(to bottom,
         rgba(21,17,11,0.93) 0%,
         rgba(21,17,11,0.89) 44%,
         rgba(21,17,11,0.58) 74%,
         rgba(21,17,11,0.44) 90%,
         rgba(21,17,11,0.78) 100%);
-    background-size:56px 56px, 56px 56px, auto;
-    background-position:center -1px, center -1px, 0 0;
   }
   .spec-strip{grid-template-columns:1fr;}
   .spec-strip div{border-right:none;border-bottom:1px solid var(--line);}
