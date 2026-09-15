@@ -237,6 +237,72 @@ nav.main a:hover, nav.main a:focus-visible{
 
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
 
+/* Aufblende beim Oeffnen der Startseite
+   Schwarze Flaeche, das Zeichen mittig mit einem Licht dahinter; danach
+   fliesst es an seinen Platz im Kopfbereich und die Flaeche gibt die Seite
+   frei. Ohne JavaScript bleibt die Flaeche verborgen (noscript im Kopf),
+   und falls das Skript ausfaellt, blendet sie sich nach vier Sekunden von
+   selbst weg - eine schwarze Seite bleibt nie stehen. */
+#intro{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  z-index:200;
+  background:#0b0906;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  transition:background-color .85s cubic-bezier(.4,0,.2,1), opacity .35s ease;
+  animation:intro-sicherung .4s linear 4s forwards;
+}
+@keyframes intro-sicherung{to{opacity:0;visibility:hidden;}}
+
+/* das Licht hinter dem Zeichen */
+.intro-licht{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:clamp(420px,120vmin,1100px);
+  height:clamp(420px,120vmin,1100px);
+  border-radius:50%;
+  pointer-events:none;
+  background:radial-gradient(circle at 50% 50%,
+    rgba(230,189,99,0.50) 0%,
+    rgba(230,189,99,0.20) 26%,
+    rgba(230,189,99,0.055) 48%,
+    rgba(230,189,99,0) 70%);
+  opacity:0;
+  transform:translate(-50%,-50%) scale(.5);
+  transition:opacity .9s ease, transform 1.1s cubic-bezier(.22,.61,.36,1);
+}
+.intro-glyph{
+  position:relative;
+  width:clamp(120px,24vmin,230px);
+  height:clamp(120px,24vmin,230px);
+  opacity:0;
+  transform:scale(.86);
+  transition:opacity .65s ease, transform .9s cubic-bezier(.22,.61,.36,1);
+}
+.intro-glyph .logo-t,.intro-glyph .logo-b{fill:#f2ece0;transition:fill .85s ease;}
+.intro-glyph .logo-h{fill:#e6bd63;transition:fill .85s ease;}
+
+/* Schritt 1: Zeichen und Licht kommen */
+#intro.intro-an .intro-licht{opacity:1;transform:translate(-50%,-50%) scale(1);}
+#intro.intro-an .intro-glyph{opacity:1;transform:scale(1);}
+
+/* Schritt 2: das Zeichen fliegt an seinen Platz, der Grund gibt die Seite frei */
+#intro.intro-flug{background-color:rgba(11,9,6,0);}
+#intro.intro-flug .intro-licht{opacity:0;transform:translate(-50%,-50%) scale(1.35);}
+#intro.intro-flug .intro-glyph{
+  transition:transform .9s cubic-bezier(.65,0,.35,1), opacity .3s ease .62s;
+}
+#intro.intro-flug .intro-glyph .logo-t,#intro.intro-flug .intro-glyph .logo-b{fill:#211c13;}
+#intro.intro-flug .intro-glyph .logo-h{fill:#7a6740;}
+#intro.intro-aus{opacity:0;}
+
 /* hero */
 .hero{
   position:relative;
@@ -1064,8 +1130,20 @@ footer.site{
   *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
 }
 </style>
+<noscript><style>#intro{display:none !important;}</style></noscript>
 </head>
 <body>
+<!-- Aufblende: schwarze Flaeche, Zeichen mittig mit Licht dahinter; danach
+     fliesst das Zeichen an seinen Platz im Kopfbereich. -->
+<div id="intro">
+  <div class="intro-licht"></div>
+  <svg class="intro-glyph" viewBox="0 0 1563 1563" aria-hidden="true" focusable="false">
+        <path class="logo-t" d="M387,500 L850,500 L850,562 L653,562 L653,1120 L583,1120 L583,562 L387,562 Z"/>
+        <path class="logo-h" d="M718,613 L778,613 L778,819 L1042,819 L1042,613 L1102,613 L1102,1121 L1042,1121 L1042,870 L778,870 L778,1121 L718,1121 Z"/>
+        <path class="logo-b" fill-rule="evenodd" d="M 661.00 729.00 C 661.00 876.00 661.00 1023.00 661.00 1170.00 C 727.00 1170.00 793.00 1170.00 859.00 1170.00 C 874.22 1167.86 889.49 1165.85 904.00 1162.00 C 915.37 1157.55 926.48 1152.49 937.00 1146.00 C 954.08 1133.88 966.11 1116.64 974.00 1099.00 C 981.87 1077.35 984.04 1053.34 983.00 1028.00 C 981.02 1016.71 978.93 1005.48 975.00 995.00 C 970.11 984.87 964.46 975.06 957.00 966.00 C 949.94 958.19 941.84 952.91 934.00 947.00 C 921.05 939.61 906.58 935.88 893.00 930.00 C 899.59 914.69 923.51 911.49 934.00 894.00 C 940.78 884.60 946.03 874.56 950.00 864.00 C 954.54 847.46 954.35 829.45 952.00 812.00 C 948.65 798.18 943.66 785.04 936.00 773.00 C 928.01 762.49 917.41 753.86 907.00 747.00 C 892.05 739.14 875.87 734.22 859.00 731.00 C 794.41 726.93 726.90 729.91 661.00 729.00 Z M 712.00 958.00 C 758.51 955.67 806.80 957.67 854.00 957.00 C 870.01 959.24 885.30 963.18 899.00 971.00 C 906.03 976.06 912.46 982.05 918.00 989.00 C 924.39 999.48 928.54 1010.89 931.00 1023.00 C 932.36 1036.04 932.36 1049.96 931.00 1063.00 C 928.19 1074.16 925.12 1085.21 919.00 1095.00 C 912.37 1103.67 903.76 1111.37 895.00 1117.00 C 885.89 1121.68 875.80 1124.00 866.00 1127.00 C 816.46 1131.19 763.87 1128.01 713.00 1129.00 C 710.67 1072.83 712.67 1014.86 712.00 958.00 Z M 712.00 772.00 C 754.51 769.67 798.80 771.67 842.00 771.00 C 852.21 773.50 862.64 775.45 872.00 780.00 C 886.21 787.99 896.57 802.36 901.00 817.00 C 902.45 826.48 903.67 836.06 904.00 846.00 C 902.64 857.54 900.69 868.84 896.00 879.00 C 890.93 887.09 885.18 894.96 877.00 901.00 C 867.57 907.51 856.99 911.26 846.00 914.00 C 802.46 916.24 757.22 914.40 713.00 915.00 C 710.67 868.16 712.67 819.53 712.00 772.00 Z"/>
+      </svg>
+</div>
+
 <header class="site">
   <div class="header-inner">
     <a class="logo" href="#top" aria-label="TBH GmbH — Startseite">
@@ -1957,6 +2035,80 @@ footer.site{
       toggle.focus();
     }
   });
+})();
+</script>
+<script>
+/* Aufblende beim Oeffnen der Startseite.
+   Das Zeichen kommt mittig mit einem Licht dahinter und fliegt dann an
+   seinen Platz im Kopfbereich. Der Flug wird gemessen, nicht geraten: die
+   Zielwerte kommen aus der tatsaechlichen Lage des Zeichens im Kopf, damit
+   es punktgenau landet. Bewusst in ES5 gehalten wie der uebrige Code. */
+(function(){
+  var flaeche = document.getElementById('intro');
+  if(!flaeche) return;
+
+  var glyph = flaeche.querySelector('.intro-glyph');
+  var ziel  = document.querySelector('header.site .logo-glyph');
+  var uhren = [];
+
+  function wegraeumen(){
+    for(var i = 0; i < uhren.length; i++){ clearTimeout(uhren[i]); }
+    if(flaeche.parentNode){ flaeche.parentNode.removeChild(flaeche); }
+  }
+  function spaeter(fn, ms){ uhren.push(setTimeout(fn, ms)); }
+
+  /* Wer weniger Bewegung wuenscht oder ueber einen Anker direkt in einen
+     Abschnitt einsteigt, bekommt die Seite ohne Umweg. */
+  var ruhig = window.matchMedia &&
+              window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(ruhig || (location.hash && location.hash.length > 1) || !glyph || !ziel){
+    wegraeumen();
+    return;
+  }
+
+  var uebersprungen = false;
+  function ueberspringen(){
+    if(uebersprungen) return;
+    uebersprungen = true;
+    wegraeumen();
+  }
+  flaeche.addEventListener('click', ueberspringen);
+  window.addEventListener('keydown', ueberspringen);
+  window.addEventListener('wheel', ueberspringen);
+  window.addEventListener('touchstart', ueberspringen);
+
+  var bild = window.requestAnimationFrame ||
+             function(fn){ return setTimeout(fn, 16); };
+
+  /* Erst im uebernaechsten Bild einschalten, sonst greift der Uebergang nicht */
+  bild(function(){
+    bild(function(){
+      if(uebersprungen) return;
+      flaeche.className = 'intro-an';
+    });
+  });
+
+  /* Der Flug an den Platz im Kopfbereich */
+  spaeter(function(){
+    if(uebersprungen) return;
+    var a = glyph.getBoundingClientRect();
+    var b = ziel.getBoundingClientRect();
+    if(!a.width || !b.width){ ueberspringen(); return; }
+    /* Das Zeichen steht hier unverzerrt, daher darf der Bezugspunkt
+       gefahrlos nach links oben wandern. */
+    glyph.style.transformOrigin = '0 0';
+    glyph.style.transform = 'translate(' + (b.left - a.left) + 'px,' +
+                            (b.top - a.top) + 'px) scale(' +
+                            (b.width / a.width) + ')';
+    flaeche.className = 'intro-an intro-flug';
+  }, 1050);
+
+  spaeter(function(){
+    if(uebersprungen) return;
+    flaeche.className = 'intro-an intro-flug intro-aus';
+  }, 1850);
+
+  spaeter(wegraeumen, 2250);
 })();
 </script>
 </body>
