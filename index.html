@@ -783,6 +783,21 @@ section.tight{padding-bottom:clamp(48px,7vw,88px);}
 .data-row a{text-decoration:none;color:var(--ink);}
 .data-row a:hover{color:var(--accent);}
 
+/* Auf schmalen Schirmen teilen sich Beschriftung und Wert die Zeile nicht
+   mehr. Nebeneinander blieben dem Wert sonst gut hundert Punkte Breite, und
+   lange Eintraege wie der Unternehmensgegenstand zerfielen in fuenf bis
+   sechs kurze Zeilen mit ausgefranstem linken Rand. Untereinander steht
+   beides linksbuendig und in voller Breite. */
+@media (max-width:600px){
+  .data-row{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:5px;
+    padding:12px 18px;
+  }
+  .data-row span:last-child{width:100%;}
+}
+
 [hidden]{display:none !important;}
 /* Rueckfallebene ohne JavaScript: Der Router blendet Impressum und
    Datenschutz sonst nie ein, die Seiten waeren dann nicht erreichbar.
