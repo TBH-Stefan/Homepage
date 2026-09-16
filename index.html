@@ -201,24 +201,73 @@ header.site.shrunk:focus-within .logo-sub{font-size:0.72rem;padding-left:14px;le
   header.site.shrunk:hover .logo-glyph{width:clamp(88px,11vw,128px);height:clamp(88px,11vw,128px);}
   header.site.shrunk:hover .logo-sub{font-size:0.72rem;padding-left:14px;letter-spacing:0.1em;}
 }
+/* Navigation als aufklappende Reiter: normal steht nur das Symbol, der
+   Reiter des gerade sichtbaren Abschnitts weitet sich zu Symbol und Text.
+   Ueberfahren oder Tastaturfokus klappen denselben Reiter vorab auf. Die
+   Breite laeuft ueber max-width des Textes, damit der Uebergang weich ist -
+   auf "auto" laesst sich nicht animieren. */
 nav.main{
   display:flex;
-  gap:clamp(16px,2.4vw,32px);
+  gap:4px;
 }
 nav.main a{
+  display:inline-flex;
+  align-items:center;
   font-family:'IBM Plex Mono',monospace;
   font-size:0.72rem;
   letter-spacing:0.08em;
   text-transform:uppercase;
   text-decoration:none;
   color:var(--ink-soft);
-  padding:6px 0;
-  border-bottom:1px solid transparent;
-  transition:color .15s ease, border-color .15s ease;
+  padding:8px 11px;
+  border:1px solid transparent;
+  background:transparent;
+  transition:color .2s ease, background-color .3s ease, border-color .3s ease, box-shadow .3s ease;
+}
+nav.main a svg{
+  width:17px;
+  height:17px;
+  flex:0 0 auto;
+  display:block;
+}
+nav.main a .tab-text{
+  max-width:0;
+  margin-left:0;
+  opacity:0;
+  overflow:hidden;
+  white-space:nowrap;
+  transition:max-width .4s cubic-bezier(.4,0,.2,1), margin-left .4s cubic-bezier(.4,0,.2,1), opacity .24s ease;
 }
 nav.main a:hover, nav.main a:focus-visible{
   color:var(--ink);
-  border-bottom-color:var(--accent);
+  background:var(--paper-raised);
+  border-color:var(--line-strong);
+}
+nav.main a.aktiv{
+  color:var(--ink);
+  background:var(--paper-raised);
+  border-color:var(--line-strong);
+  box-shadow:inset 0 -2px 0 var(--accent);
+}
+nav.main a:focus-visible .tab-text,
+nav.main a.aktiv .tab-text{
+  max-width:18ch;
+  margin-left:9px;
+  opacity:1;
+}
+/* Vorab aufklappen nur dort, wo wirklich mit einem Zeiger ueberfahren wird.
+   Auf Beruehrungsschirmen bleibt :hover nach dem Tippen haengen; dann stuenden
+   zwei Reiter offen und die Reihe liefe ueber den Rand. */
+@media (hover:hover) and (pointer:fine){
+  nav.main a:hover .tab-text{
+    max-width:18ch;
+    margin-left:9px;
+    opacity:1;
+  }
+}
+/* Wer weniger Bewegung wuenscht, bekommt den Reiter ohne Laufweite */
+@media (prefers-reduced-motion: reduce){
+  nav.main a .tab-text{transition:none;}
 }
 .header-cta{
   font-family:'IBM Plex Mono',monospace;
@@ -233,7 +282,6 @@ nav.main a:hover, nav.main a:focus-visible{
   transition:background .15s ease;
 }
 .header-cta:hover, .header-cta:focus-visible{background:var(--accent-strong);}
-.nav-toggle{display:none;}
 
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
 
@@ -1058,47 +1106,30 @@ footer.site{
 }
 
 @media (max-width:860px){
+  /* Auf schmalen Schirmen stehen die Reiter weiterhin offen in der Kopfzeile;
+     der Platz dafuer kommt aus der Beschriftung neben dem Zeichen und einem
+     kleineren Zeichen. Ein Ausklappmenue braucht es dadurch nicht mehr. */
   nav.main{
-    position:absolute;
-    top:100%;
-    right:clamp(20px,4vw,48px);
-    margin-top:10px;
-    min-width:220px;
-    background:var(--paper-raised);
-    border:1px solid var(--line-strong);
-    box-shadow:0 12px 28px rgba(0,0,0,0.16);
-    flex-direction:column;
-    padding:8px;
     gap:2px;
-    display:none;
+    margin-left:auto;
   }
-  nav.main.open{display:flex;}
-  nav.main a{
-    padding:11px 14px;
-    border-bottom:none;
+  nav.main a{padding:8px 7px;}
+  nav.main a svg{width:19px;height:19px;}
+  nav.main a .tab-text{font-size:0.66rem;letter-spacing:0.06em;}
+  nav.main a:focus-visible .tab-text,
+  nav.main a.aktiv .tab-text{margin-left:7px;}
+  @supports selector(:has(*)){
+    nav.main:has(a:focus-visible) a.aktiv:not(:focus-visible) .tab-text{
+      max-width:0;
+      margin-left:0;
+      opacity:0;
+    }
   }
-  nav.main a:hover, nav.main a:focus-visible{
-    background:var(--paper-sunken);
-    color:var(--ink);
-  }
-  .nav-toggle{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-    height:40px;
-    padding:0 14px;
-    background:none;
-    border:1px solid var(--line-strong);
-    color:var(--ink);
-    cursor:pointer;
-  }
-  .nav-toggle-label{
-    font-family:'IBM Plex Mono',monospace;
-    font-size:0.72rem;
-    letter-spacing:0.08em;
-    text-transform:uppercase;
-  }
+  .logo-sub{display:none;}
+  .logo-glyph{width:clamp(46px,13vw,60px);height:clamp(46px,13vw,60px);}
+  header.site.shrunk .logo-glyph{width:clamp(40px,11vw,50px);height:clamp(40px,11vw,50px);}
+  header.site.shrunk:focus-within .logo-glyph,
+  header.site.shrunk:hover .logo-glyph{width:clamp(46px,13vw,60px);height:clamp(46px,13vw,60px);}
   .header-cta{display:none;}
   .hero-copy{max-width:100%;}
   /* Auf schmalen Schirmen steht der Schriftsatz ueber der ganzen Breite. Der
@@ -1169,15 +1200,11 @@ footer.site{
       </svg>
       <span class="logo-sub">Technisches Büro für<br>Elektrotechnik</span>
     </a>
-    <button class="nav-toggle" id="navToggle" aria-label="Menü öffnen" aria-haspopup="true" aria-expanded="false">
-      <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><line x1="1" y1="4" x2="17" y2="4" stroke="currentColor" stroke-width="1.5"/><line x1="1" y1="9" x2="17" y2="9" stroke="currentColor" stroke-width="1.5"/><line x1="1" y1="14" x2="17" y2="14" stroke="currentColor" stroke-width="1.5"/></svg>
-      <span class="nav-toggle-label">Menü</span>
-    </button>
-    <nav class="main" id="mainNav">
-      <a href="#leistungen">Leistungen</a>
-      <a href="#ueber-uns">Über uns</a>
-      <a href="#referenzen">Tätigkeitsfelder</a>
-      <a href="#kontakt">Kontakt</a>
+    <nav class="main" id="mainNav" aria-label="Hauptnavigation">
+      <a href="#leistungen"><svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false"><rect x="4" y="4" width="22" height="22"/><path d="M4 11h22M11 26V11"/><circle cx="18.5" cy="18.5" r="3.5"/></svg><span class="tab-text">Leistungen</span></a>
+      <a href="#ueber-uns"><svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false"><circle cx="15" cy="11" r="5"/><path d="M5.5 26c0-4.7 4.3-8 9.5-8s9.5 3.3 9.5 8" stroke-linecap="round"/></svg><span class="tab-text">Über uns</span></a>
+      <a href="#referenzen"><svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false"><rect x="4" y="4" width="9.5" height="9.5"/><rect x="16.5" y="4" width="9.5" height="9.5"/><rect x="4" y="16.5" width="9.5" height="9.5"/><rect x="16.5" y="16.5" width="9.5" height="9.5"/></svg><span class="tab-text">Tätigkeitsfelder</span></a>
+      <a href="#kontakt"><svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false"><path d="M26 4L3.5 13.2l8.4 3.2L26 4z" stroke-linejoin="round"/><path d="M26 4l-7.3 22-6.8-9.6L26 4z" stroke-linejoin="round"/></svg><span class="tab-text">Kontakt</span></a>
     </nav>
     <a class="header-cta" href="#kontakt">Projekt anfragen</a>
   </div>
@@ -2024,32 +2051,72 @@ footer.site{
 </script>
 
 <script>
+/* Aufklappende Reiter: der Reiter des Abschnitts, der gerade oben steht,
+   weitet sich zu Symbol und Text. Gemessen wird gegen die Unterkante der
+   geschrumpften Kopfzeile, damit der Wechsel dort stattfindet, wo der
+   Abschnitt tatsaechlich sichtbar wird. Bewusst in ES5 gehalten. */
 (function(){
-  var toggle = document.getElementById('navToggle');
   var nav = document.getElementById('mainNav');
-  toggle.addEventListener('click', function(){
-    var open = nav.classList.toggle('open');
-    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-  });
-  nav.querySelectorAll('a').forEach(function(a){
-    a.addEventListener('click', function(){
-      nav.classList.remove('open');
-      toggle.setAttribute('aria-expanded','false');
-    });
-  });
-  document.addEventListener('click', function(e){
-    if(nav.classList.contains('open') && !nav.contains(e.target) && !toggle.contains(e.target)){
-      nav.classList.remove('open');
-      toggle.setAttribute('aria-expanded','false');
+  if(!nav) return;
+
+  var links = nav.getElementsByTagName('a');
+  var ziele = [];
+  for(var i = 0; i < links.length; i++){
+    var ref = links[i].getAttribute('href') || '';
+    if(ref.charAt(0) !== '#' || ref.length < 2) continue;
+    var el = document.getElementById(ref.slice(1));
+    if(el) ziele.push({ link: links[i], el: el });
+  }
+  if(!ziele.length) return;
+
+  function kopfhoehe(){
+    var w = getComputedStyle(document.documentElement)
+              .getPropertyValue('--header-shrunk-h');
+    var z = parseFloat(w);
+    return (z > 0) ? z : 92;
+  }
+
+  function setzen(){
+    var linie = (window.pageYOffset || document.documentElement.scrollTop) + kopfhoehe() + 40;
+    var treffer = null;
+
+    for(var i = 0; i < ziele.length; i++){
+      /* Waehrend Impressum oder Datenschutz offen sind, ist die Startseite
+         ausgeblendet - dann soll kein Reiter aufgeklappt sein. */
+      if(ziele[i].el.offsetParent === null && ziele[i].el.offsetHeight === 0) continue;
+      var oben = ziele[i].el.getBoundingClientRect().top +
+                 (window.pageYOffset || document.documentElement.scrollTop);
+      if(oben <= linie) treffer = ziele[i];
     }
-  });
-  document.addEventListener('keydown', function(e){
-    if(e.key === 'Escape' && nav.classList.contains('open')){
-      nav.classList.remove('open');
-      toggle.setAttribute('aria-expanded','false');
-      toggle.focus();
+
+    /* Ganz unten gehoert der letzte Abschnitt dazu, auch wenn er kurz ist */
+    var unten = (window.pageYOffset || document.documentElement.scrollTop) + window.innerHeight;
+    if(treffer && unten >= document.documentElement.scrollHeight - 4){
+      for(var k = ziele.length - 1; k >= 0; k--){
+        if(ziele[k].el.offsetHeight > 0){ treffer = ziele[k]; break; }
+      }
     }
-  });
+
+    for(var j = 0; j < ziele.length; j++){
+      var an = (ziele[j] === treffer);
+      ziele[j].link.className = an ? 'aktiv' : '';
+      if(an){ ziele[j].link.setAttribute('aria-current', 'true'); }
+      else  { ziele[j].link.removeAttribute('aria-current'); }
+    }
+  }
+
+  var laeuft = false;
+  function anstossen(){
+    if(laeuft) return;
+    laeuft = true;
+    var bild = window.requestAnimationFrame || function(fn){ return setTimeout(fn, 16); };
+    bild(function(){ laeuft = false; setzen(); });
+  }
+
+  setzen();
+  window.addEventListener('scroll', anstossen, {passive:true});
+  window.addEventListener('resize', anstossen);
+  window.addEventListener('hashchange', anstossen);
 })();
 </script>
 <script>
